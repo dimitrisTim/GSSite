@@ -29,13 +29,44 @@ $(document).ready(function () {
         },  
        function (data) {  
            var date;
+           var Pattern = '((?:(?:[1]{1}\\d{1}\\d{1}\\d{1})|(?:[2]{1}\\d{3}))[-:\\/.](?:[0]?[1-9]|[1][012])[-:\\/.](?:(?:[0-2]?\\d{1})|(?:[3][01]{1})))(?![\\d])';
+           var yyyymmdd1;
+           var splittedDate;
+           var finalDate; //Returns the day, needs improvement if we change month for the vid release date
 		      $.each(data.items, function (k,item) {  
-               date = item.snippet.publishedAt;  
-			   document.getElementById("lvideo").innerHTML = document.getElementById("lvideo").innerHTML + '<img src="'+ images[i]+ '">' + channelName[i].bold() + ' Τελευταίο βίντεο στις: ' + date +  '<a href="https://www.youtube.com/user/'+ channelName[i]+'/videos' + '"> Δες το!</a></br>';
+		          date = item.snippet.publishedAt;
+		          var p = new RegExp(Pattern, ["i"]);
+		          var m = p.exec(date);
+		          if (m != null) {
+		              yyyymmdd1 = m[1];
+		          }
+		          splittedDate = yyyymmdd1.split("-");
+		          finalDate = getCurrentDay() - splittedDate[2];
+		          if (finalDate==0) 
+		              document.getElementById("lvideo").innerHTML = document.getElementById("lvideo").innerHTML + '<img src="' + images[i] + '">' + channelName[i].bold() + ' Τελευταίο βίντεο : ' + "Σήμερα!" + '<a href="https://www.youtube.com/user/' + channelName[i] + '/videos' + '"> Δες το!</a></br>';
+                  else 
+		              document.getElementById("lvideo").innerHTML = document.getElementById("lvideo").innerHTML + '<img src="' + images[i] + '">' + channelName[i].bold() + ' Τελευταίο βίντεο πριν από: ' + finalDate+ " ημέρες." + '<a href="https://www.youtube.com/user/' + channelName[i] + '/videos' + '"> Δες το!</a></br>';
            })    
-       }  
+       }
        );  
+       
     }  
-}); 
+});
+function getCurrentDay() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear(); 
+
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    today = yyyy + '-' + mm + '-' + dd;
+   return dd //returns the day
+}
 })(i)
 }
