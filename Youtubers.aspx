@@ -3,13 +3,24 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="PageContent" runat="server">
 <meta charset="UTF-8">
 <style>
-    img {
-    width: 50px;
-    height: auto;
-}
+     .con{
+        width: 150px;
+        margin-left: 10px;
+        margin-right: 150px;
+        float: left;
+    }
+    img{
+        width: 150px;
+        height:150px;
+        float:left;
+
+    }
+    .text{
+        text-align:center;
+    }
 </style>
 <h1>Τελευταίο Βίντεο</h1>
-<div id ="lvideo">
+<div id ="lvideo-grid">
 
     
 </div>
